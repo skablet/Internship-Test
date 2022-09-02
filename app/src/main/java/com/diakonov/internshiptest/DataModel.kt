@@ -21,8 +21,5 @@ class DataModel : ViewModel() {
 
     }
 
-
-
-
 data class Score(val countValue: Int = 0)
 }
