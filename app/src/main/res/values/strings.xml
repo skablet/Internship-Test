@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Internship Test</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="toFrag">Go to fragment</string>
+    <string name="add1">Add 1 to counter</string>
+    <string name="noData">no data</string>
+    <string name="toFragm">Go to counter</string>
+    <string name="back">back</string>
+</resources>
