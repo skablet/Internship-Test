@@ -2,16 +2,11 @@ package com.diakonov.internshiptest
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.diakonov.internshiptest.databinding.ActivityMain2Binding
-import com.diakonov.internshiptest.db.model.UserModel
-import com.diakonov.internshiptest.db.repo.UserRepo
 
-lateinit var REPOSITORY: UserRepo
-
-class MainActivity : AppCompatActivity(), UserInfoAdapter.OnRecyclerViewItemClickListener{
+class MainActivity : AppCompatActivity() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: UserInfoAdapter
@@ -22,52 +17,29 @@ class MainActivity : AppCompatActivity(), UserInfoAdapter.OnRecyclerViewItemClic
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
-
-        fun itemClick(userModel: UserModel){
-            val bundle = Bundle()
-            bundle.putSerializable("user", userModel)
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame, InfoFragment.newInstance())
-                .commit()
-            }
-
     }
-    private fun init() {
-        val viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        viewModel.initDatabase()
+
+
+    private fun init(){
         recyclerView = binding.rvInfo
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = UserInfoAdapter()
         recyclerView.adapter = adapter
-        viewModel.getAllUsers().observe(this) { listUsers ->
-            adapter.setList(listUsers.asReversed()) }
-//        adapter.binding.cbStatus.setOnCheckedChangeListener{
-//            val checkStatus = adapter.binding.cbStatus.isChecked
-//            viewModel.update(UserModel(isStudent = checkStatus))}
+        adapter.setOnItemClickListener(object : UserInfoAdapter.OnItemClickListener{
+            override fun onItemClick(position: Int) {
+                val bundle = Bundle()
+                bundle.putString("name", adapter.userList[position].name)
+                bundle.putString("age", adapter.userList[position].age.toString() )
+                bundle.putBoolean("status", adapter.userList[position].isStudent )
+                val fragmentA = InfoFragment()
+                fragmentA.arguments = bundle
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.frame, fragmentA)
+                    .commit()
+            }
 
-        binding.toolbar.inflateMenu(R.menu.fragm_menu)
-        binding.toolbar.title = "Add New User"
-        binding.toolbar.setNavigationIcon(R.drawable.add_icon)
-        binding.toolbar.setNavigationOnClickListener{
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame, AddUserFragment.newInstance())
-                .commit()
-        }
+        })
     }
-    companion object{
-        fun itemClick(userModel: UserModel){
-            val bundle = Bundle()
-            bundle.putSerializable("user", userModel)
-
-
-
-
-
-        }
-    }
-
-
 }
 

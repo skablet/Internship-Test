@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:clickable="true"
     tools:context=".InfoFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -45,7 +46,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/Студент" />
+            android:buttonTint="@color/black"
+            android:focusable="false"
+            android:clickable="false"
+            android:text="@string/Студент"
+            android:textColorHighlight="@color/black"
+            android:textColorLink="@color/black"
+            app:useMaterialThemeColors="true" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
